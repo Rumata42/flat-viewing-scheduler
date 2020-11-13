@@ -29,16 +29,19 @@ fun Application.module(testing: Boolean = false) {
             post("/reserve") {
                 processSlot(call) { flat, dateTime, tenantId ->
                     flat.reserveSlot(dateTime, tenantId)
+                    log.info("Slot reserved: flat = ${flat.id}, tenantId = $tenantId, dateTime = $dateTime")
                 }
             }
             post("/accept") {
                 processSlot(call) { flat, dateTime, tenantId ->
                     flat.acceptSlot(dateTime, tenantId)
+                    log.info("Slot accepted: flat = ${flat.id}, tenantId = $tenantId, dateTime = $dateTime")
                 }
             }
             post("/reject") {
                 processSlot(call) { flat, dateTime, tenantId ->
                     flat.rejectSlot(dateTime, tenantId)
+                    log.info("Slot rejected: flat = ${flat.id}, tenantId = $tenantId, dateTime = $dateTime")
                 }
             }
         }

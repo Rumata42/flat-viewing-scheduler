@@ -19,7 +19,7 @@ class Flat(
         if (previous != null) {
             throw IllegalArgumentException("This slot is already reserved")
         }
-        Notifications.sendNotification(tenantId, "New request: flat $id, time: $dateTime", dateTime.minusDays(1))
+        Notifications.addNotification(tenantId, "New request: flat $id, time: $dateTime", dateTime.minusDays(1))
     }
 
     fun acceptSlot(dateTime: LocalDateTime, tenantId: Long) {
@@ -35,7 +35,7 @@ class Flat(
             }
             slot.withNewStatus(SlotStatus.ACCEPTED)
         }
-        Notifications.sendNotification(tenantId, "Request: flat $id, time: $dateTime - has been accepted")
+        Notifications.addNotification(tenantId, "Request: flat $id, time: $dateTime - has been accepted", dateTime)
     }
 
     fun rejectSlot(dateTime: LocalDateTime, tenantId: Long) {
@@ -63,9 +63,9 @@ class Flat(
             }
         }
         if (tenantId == ownerId) {
-            Notifications.sendNotification(slot!!.tenantId, "Request: flat $id, time: $dateTime - has been rejected")
+            Notifications.addNotification(slot!!.tenantId, "Request: flat $id, time: $dateTime - has been rejected", dateTime)
         } else {
-            Notifications.sendNotification(ownerId, "Request: flat $id, time: $dateTime - has been rejected")
+            Notifications.addNotification(ownerId, "Request: flat $id, time: $dateTime - has been rejected", dateTime)
         }
     }
 
