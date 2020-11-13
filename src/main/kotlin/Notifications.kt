@@ -1,16 +1,15 @@
-import io.ktor.application.*
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 import java.util.concurrent.*
 import kotlin.random.Random
 
-object Notifications {
+object Notifications: INotifications {
 
     private val log = LoggerFactory.getLogger(this::class.java)
 
     private val executor = ThreadPoolExecutor(1, 1, 1, TimeUnit.DAYS, PriorityBlockingQueue())
 
-    fun addNotification(tenantId: Long, message: String, maxTime: LocalDateTime) {
+    override fun addNotification(tenantId: Long, message: String, maxTime: LocalDateTime) {
         executor.execute(Notification(tenantId, message, maxTime))
     }
 

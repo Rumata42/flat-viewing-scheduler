@@ -3,7 +3,8 @@ import java.util.concurrent.ConcurrentHashMap
 
 class Flat(
     val id: Long,
-    private val ownerId: Long
+    private val ownerId: Long,
+    private val notifications: INotifications
 ) {
 
     private val slots = ConcurrentHashMap<LocalDateTime, Slot>()
@@ -19,7 +20,7 @@ class Flat(
         if (previous != null) {
             throw IllegalArgumentException("This slot is already reserved")
         }
-        Notifications.addNotification(tenantId, "New request: flat $id, time: $dateTime", dateTime.minusDays(1))
+        notifications.addNotification(tenantId, "New request: flat $id, time: $dateTime", dateTime.minusDays(1))
     }
 
     fun acceptSlot(dateTime: LocalDateTime, tenantId: Long) {
@@ -35,7 +36,7 @@ class Flat(
             }
             slot.withNewStatus(SlotStatus.ACCEPTED)
         }
-        Notifications.addNotification(tenantId, "Request: flat $id, time: $dateTime - has been accepted", dateTime)
+        notifications.addNotification(tenantId, "Request: flat $id, time: $dateTime - has been accepted", dateTime)
     }
 
     fun rejectSlot(dateTime: LocalDateTime, tenantId: Long) {
@@ -63,9 +64,9 @@ class Flat(
             }
         }
         if (tenantId == ownerId) {
-            Notifications.addNotification(slot!!.tenantId, "Request: flat $id, time: $dateTime - has been rejected", dateTime)
+            notifications.addNotification(slot!!.tenantId, "Request: flat $id, time: $dateTime - has been rejected", dateTime)
         } else {
-            Notifications.addNotification(ownerId, "Request: flat $id, time: $dateTime - has been rejected", dateTime)
+            notifications.addNotification(ownerId, "Request: flat $id, time: $dateTime - has been rejected", dateTime)
         }
     }
 

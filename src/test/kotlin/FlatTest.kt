@@ -11,11 +11,12 @@ class FlatTest {
     private val localDate = LocalDate.now()
     private val correctDateTime = localDate.plusDays(5).atTime(12, 0)
 
+    private val notificationsMock = INotifications{ _, _, _ -> Unit }
     private lateinit var flat: Flat
 
     @Before
     fun beforeEach() {
-        flat = Flat(1, ownerId)
+        flat = Flat(1, ownerId, notificationsMock)
     }
 
     /*------------------reserve------------------*/

@@ -6,7 +6,7 @@ object Flats {
 
     // Until someone implements CRUD operations for flats
     init {
-        flats[1L] = Flat(1L, 10L)
+        flats[1L] = Flat(1L, 10L, Notifications)
     }
 
 
