@@ -1,3 +1,3 @@
 import java.lang.RuntimeException
 
-class InsufficientPermissionsException(message: String): RuntimeException(message)
+class InsufficientPermissionsException(override val message: String): RuntimeException(message)
